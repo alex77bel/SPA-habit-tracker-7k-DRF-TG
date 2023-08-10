@@ -3,6 +3,9 @@ from django.contrib.auth.models import UserManager as PriorUserManager
 
 
 class UserManager(PriorUserManager):
+    """Переопределение UserManager необходимо для сохранения возможности создания суперюзера
+    после удаления поля username = None"""
+
     def _create_user(self, email, password, **extra_fields):
         """Create and save a user with the given username, email, and password."""
         if not email:
@@ -30,3 +33,31 @@ class UserManager(PriorUserManager):
             raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **extra_fields)
+#
+#
+#
+#
+#
+#
+# Вариант 2
+#
+# class UserManager(PriorUserManager):
+#     """Переопределение UserManager необходимо для возможности создания суперюзера"""
+#     def create_user(self, email, password=None, **extra_fields):
+#         """ Создает и возвращает пользователя"""
+#         if email is None:
+#             raise TypeError('Должен быть email')
+#         user = self.model(email=self.normalize_email(email))
+#         user.set_password(password)  # хэширует пароль для хранения в бд
+#         user.save()
+#         return user
+#
+#     def create_superuser(self, email=None, password=None, **extra_fields):
+#         """ Создает и возвращает суперюзера"""
+#         if password is None:
+#             raise TypeError('Superusers must have a password.')
+#         user = self.create_user(email, password)
+#         user.is_superuser = True
+#         user.is_staff = True
+#         user.save()
+#         return user

@@ -45,8 +45,8 @@ USER_APPS = [
     'rest_framework',  # rest_framework
     # 'django_filters',  # django_filters
     'rest_framework_simplejwt',  # JWT
-    'app.users.apps.UsersConfig',
-    'app.habits.apps.HabitsConfig',
+    'habits.apps.HabitsConfig',
+    'users.apps.UsersConfig'
 ]
 
 INSTALLED_APPS = STANDARD_APPS + USER_APPS
@@ -122,7 +122,7 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = "users.CustomUser"
+AUTH_USER_MODEL = "users.User"
 
 REST_FRAMEWORK = {
 
@@ -131,14 +131,14 @@ REST_FRAMEWORK = {
     # настройка для JWT
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
     # эта настройка добавляет авторизацию на все контроллеры
-    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',)
+    'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.IsAuthenticated',),
     # по умолчанию доступ ко всему открыт
     # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',)
 }
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
 # Настройки для Celery
@@ -153,13 +153,13 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-CELERY_BEAT_SCHEDULE = {
-
-    'user_activity_check': {
-        'task': 'users.tasks.user_activity_check',
-        'schedule': timedelta(minutes=1)
-    },
-}
+# CELERY_BEAT_SCHEDULE = {
+#
+#     'user_activity_check': {
+#         'task': 'users.tasks.user_activity_check',
+#         'schedule': timedelta(minutes=1)
+#     },
+# }
 # 1. Обязательно должно присутствовать 'task', иначе не найдет
 # 2. команды запуска периодических задач (надо почему-то в разных терминалах):
 # celery -A config worker -l INFO

@@ -16,7 +16,4 @@ from django.core.asgi import get_asgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 
-current_path = Path(__file__).parent.resolve()
-sys.path.append(str(current_path / "app"))
-
 application = get_asgi_application()

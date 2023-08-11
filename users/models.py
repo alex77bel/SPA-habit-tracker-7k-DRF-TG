@@ -9,9 +9,10 @@ NULLABLE = {'blank': True, 'null': True}
 class User(AbstractUser):
     """Модель пользователя"""
     username = None
-    email = models.EmailField(unique=True, verbose_name='почта')
-    tg_username = models.CharField(max_length=150, verbose_name='никнейм в телеграмме', **NULLABLE)
-    tg_chat_id = models.CharField(max_length=150, verbose_name='ID чата в телеграмм', **NULLABLE)
+    email = models.EmailField(unique=True, verbose_name='почта')  # должно быть уникальным
+    # здесь должно быть username или first_name <last_name> из тг - нужно, чтобы было, как в тг, чтобы нашелся юзер
+    tg_user_name = models.CharField(max_length=150, verbose_name='username или first_name <last_name> из телеграмма')
+    tg_user_id = models.CharField(max_length=150, verbose_name='user_id из телеграмма', **NULLABLE)  # берется из тг
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from datetime import timedelta
 from pathlib import Path
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -45,6 +47,7 @@ USER_APPS = [
     'rest_framework',  # rest_framework
     # 'django_filters',  # django_filters
     'rest_framework_simplejwt',  # JWT
+    'corsheaders',  # cors
     'habits.apps.HabitsConfig',
     'users.apps.UsersConfig'
 ]
@@ -59,6 +62,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -88,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'kurs7',
-        'USER': 'postgres_ubuntu',
-        'PASSWORD': '0112',
+        'USER': os.getenv('DATABASES_USERS'),
+        'PASSWORD': os.getenv('DATABASES_PASSWORD'),
         'HOST': 'localhost',
         'PORT': ''
     }
@@ -124,8 +128,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = "users.User"
 
+# DRF
 REST_FRAMEWORK = {
-
     # настройка для rest_framework
     # 'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
     # настройка для JWT
@@ -136,12 +140,13 @@ REST_FRAMEWORK = {
     # 'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',)
 }
 
+# JWT
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
 }
 
-# Настройки для Celery
+# CELERY
 # URL-адрес брокера сообщений
 CELERY_BROKER_URL = 'redis://localhost:6379'  # Например, Redis, который по умолчанию работает на порту 6379
 # URL-адрес брокера результатов, также Redis
@@ -153,14 +158,21 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
-# CELERY_BEAT_SCHEDULE = {
-#
-#     'user_activity_check': {
-#         'task': 'users.tasks.user_activity_check',
-#         'schedule': timedelta(minutes=1)
-#     },
-# }
-# 1. Обязательно должно присутствовать 'task', иначе не найдет
-# 2. команды запуска периодических задач (надо почему-то в разных терминалах):
+CELERY_BEAT_SCHEDULE = {
+    'habit_hande': {
+        'task': 'habits.tasks.habit_hande',
+        'schedule': timedelta(minutes=1)
+    },
+}
+# 1. Обязательно должно присутствовать 'task',
+# 2. команды запуска периодических задач - в разных терминалах:
 # celery -A config worker -l INFO
 # celery -A config beat -l info -S django
+
+# CORS
+CORS_ALLOWED_ORIGINS = ['http://localhost:8000', ]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', ]
+CORS_ALLOW_ALL_ORIGINS = False
+
+# Telegram token
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')

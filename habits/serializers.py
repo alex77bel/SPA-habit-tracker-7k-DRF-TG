@@ -1,12 +1,10 @@
 from rest_framework import serializers
-from rest_framework import validators
-
 from habits.models import Habit
 from habits.validators import DurationValidator, PeriodicityValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
-    """Полный сериализатор"""
+    """Сериализатор привычек"""
 
     def validate(self, attrs):
         """Валидация связанных привычек и вознаграждения"""

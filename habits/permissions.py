@@ -1,21 +1,6 @@
 from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
-class IsOwner(BasePermission):
-    """Проверка, что пользователь - владелец"""
-
-    def has_object_permission(self, request, view, obj):
-        return request.user == obj.owner
-        # return False
-
-
-class ReadOnly(BasePermission):
-    """разрешат только чтение (GET, HEAD, OPTIONS)"""
-
-    def has_permission(self, request, view):
-        return request.method in SAFE_METHODS
-
-
 class HabitPermissions(BasePermission):
     """
     True:

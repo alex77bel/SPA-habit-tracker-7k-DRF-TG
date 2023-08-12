@@ -15,6 +15,8 @@ def tg_get_updates():
     # Получение из чата полей id и username (либо first_name_<last_name> вместо username, т.к. оно опционально)
     if response.status_code == 200:
         for data in response.json()['result']:
+            if not data.get('message'):  # поиск сообщения в ответе
+                continue
             tg_user_id = data['message']['from'].get('id')  # получаем tg_user_id, это обязательное поле
             if User.objects.filter(tg_user_id=tg_user_id).exists():
                 continue  # если юзер уже есть в базе, пропускаем

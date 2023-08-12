@@ -25,10 +25,10 @@
 - Создана схема документации (Swagger , Redoc).
 
 
-source env/bin/activate - активация виртуального окружения
-pip install -r requirements.txt - установка зависимостей
-.env - этот файл необходимо создать в корне проекта и заполнить по шаблону .env.example
-celery -A config worker -l INFO - запуск celery worker
-celery -A config beat -l info -S django - запуск celery beat
-python manage.py test - запуск тестов
-coverage report - отчет по тестам
+# source env/bin/activate - активация виртуального окружения
+# pip install -r requirements.txt - установка зависимостей
+# .env - этот файл необходимо создать в корне проекта и заполнить по шаблону .env.example
+# celery -A config worker -l INFO - запуск celery worker
+# celery -A config beat -l info -S django - запуск celery beat
+# python manage.py test - запуск тестов
+# coverage report - отчет по тестам

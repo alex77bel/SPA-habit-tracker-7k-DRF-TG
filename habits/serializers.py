@@ -1,12 +1,10 @@
 from rest_framework import serializers
-from rest_framework import validators
-
 from habits.models import Habit
 from habits.validators import DurationValidator, PeriodicityValidator
 
 
 class HabitSerializer(serializers.ModelSerializer):
-    """Полный сериализатор"""
+    """Сериализатор привычек"""
 
     def validate(self, attrs):
         """Валидация связанных привычек и вознаграждения"""
@@ -35,7 +33,7 @@ class HabitSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Habit
-        fields = ('id', 'owner', 'place', 'time', 'action', 'duration', 'is_public',
+        fields = ('id', 'owner', 'place', 'time', 'date', 'action', 'duration', 'is_public',
                   'is_enjoyable_habit', 'enjoyable_habit', 'fee', 'periodicity')
         # валидация полей duration и periodicity
         validators = [DurationValidator(field='duration'), PeriodicityValidator(field='periodicity')]

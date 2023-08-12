@@ -1,19 +1,20 @@
 from rest_framework import viewsets
-from rest_framework.response import Response
 
-from habits.mixins import SetOwnerMixin, GetQuerysetForModeratorOrOwnerMixin
 from habits.paginators import CustomPaginator
 from habits.permissions import HabitPermissions
 from habits.serializers import HabitSerializer
 from habits.models import Habit
 
 
-class HabitViewSet(SetOwnerMixin, viewsets.ModelViewSet):
-    """Вьюсет привычки"""
+class HabitViewSet(viewsets.ModelViewSet):
+    """Вьюсет для эндпоинтов привычек"""
     queryset = Habit.objects.all()
     pagination_class = CustomPaginator
     permission_classes = [HabitPermissions]
     serializer_class = HabitSerializer
+
+    def perform_create(self, serializer):  # получение текущего авторизованного пользователя
+        serializer.save(owner=self.request.user)
 
     def list(self, request, *args, **kwargs):
         """Обработка вывода списка привычек"""

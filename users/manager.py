@@ -4,7 +4,7 @@ from django.contrib.auth.models import UserManager as PriorUserManager
 
 class UserManager(PriorUserManager):
     """Переопределение UserManager необходимо для сохранения возможности создания суперюзера
-    после удаления поля username = None"""
+    после удаления поля username"""
 
     def _create_user(self, email, password, **extra_fields):
         """Create and save a user with the given username, email, and password."""
@@ -17,7 +17,7 @@ class UserManager(PriorUserManager):
         return user
 
     def create_user(self, email=None, password=None, **extra_fields):
-        """Создание пользователя"""
+        """Создание юзера"""
         extra_fields.setdefault("is_staff", False)
         extra_fields.setdefault("is_superuser", False)
         return self._create_user(email, password, **extra_fields)

@@ -4,18 +4,18 @@ from users.models import User
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
-    """Полный сериализатор"""
+    """Сериализатор, используемый при создании юзера"""
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'is_superuser', 'is_staff', 'password', 'last_login')
+        fields = ('id', 'email', 'tg_user_name', 'tg_user_id', 'is_superuser', 'is_staff', 'password', 'last_login')
 
     def save(self, **kwargs):
         password = self.validated_data['password']
         user = User.objects.create(
             email=self.validated_data.get('email'),
-            tg_username=self.validated_data.get('tg_username'),
-            tg_chat_id=self.validated_data.get('tg_chat_id')
+            tg_user_name=self.validated_data.get('tg_user_name'),
+            tg_user_id=self.validated_data.get('tg_user_id')
         )
         user.set_password(password)  # хэширует пароль для хранения в бд
         user.save()
@@ -23,8 +23,8 @@ class UserCreateSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    """Сокращенный сериализатор, выводит часть данных"""
+    """Сериализатор для методов кроме создания юзера"""
 
     class Meta:
         model = User
-        fields = ('id', 'email', 'is_superuser', 'is_staff', 'last_login')
+        fields = ('id', 'email', 'tg_user_name', 'tg_user_id', 'is_superuser', 'is_staff', 'last_login')

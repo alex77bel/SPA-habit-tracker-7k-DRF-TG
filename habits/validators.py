@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+
 class DurationValidator:
     """Класс валидации поля duration, время выполнения должно быть не больше 120 секунд."""
     MAX_DURATION = 120  # максимальное время выполнения привычки, сек.
@@ -14,7 +15,7 @@ class DurationValidator:
 
 
 class PeriodicityValidator:
-    """Класс валицации поля Periodicity, нельзя выполнять привычку реже, чем 1 раз в 7 дней"""
+    """Класс валидации поля Periodicity, нельзя выполнять привычку реже, чем 1 раз в 7 дней"""
     MAX_PERIODICITY = 7  # максимальный интервал между выполнением привычки, суток
 
     def __init__(self, field):
@@ -26,5 +27,3 @@ class PeriodicityValidator:
             raise serializers.ValidationError('Периодичность должна иметь значение больше нуля')
         if periodicity > self.MAX_PERIODICITY:
             raise serializers.ValidationError('Нельзя выполнять привычку реже, чем 1 раз в 7 дней')
-
-

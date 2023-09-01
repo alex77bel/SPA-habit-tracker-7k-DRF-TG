@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'kurs7',
-        'USER': os.getenv('DATABASES_USERS'),
-        'PASSWORD': os.getenv('DATABASES_PASSWORD'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': 'localhost',
         'PORT': ''
     }
@@ -158,16 +158,14 @@ CELERY_TASK_TRACK_STARTED = True
 # Максимальное время на выполнение задачи
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
+# celery -A config worker --beat --loglevel=info
+# Обязательно должно присутствовать слово 'task', иначе не найдет:
 CELERY_BEAT_SCHEDULE = {
     'habit_hande': {
         'task': 'habits.tasks.habit_hande',
         'schedule': timedelta(minutes=1)
     },
 }
-# 1. Обязательно должно присутствовать 'task',
-# 2. команды запуска периодических задач - в разных терминалах:
-# celery -A config worker -l INFO
-# celery -A config beat -l info -S django
 
 # CORS
 CORS_ALLOWED_ORIGINS = ['http://localhost:8000', ]

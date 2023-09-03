@@ -28,11 +28,11 @@
 
 - Python, Celery, Redis, Django, DRF, PostgreSQL, JWT, Stripe, Unittest,
 
-- Для создания и запуска docker-контейнера выполни команду в терминале в папке проекта:
+Для создания и запуска docker-контейнера выполни команду в терминале в папке проекта:
 
         docker-compose up -d --build
 
-- Команды:
+Команды:
 
         source env/bin/activate - активация виртуального окружения
         pip install -r requirements.txt - установка зависимостей

@@ -25,10 +25,17 @@
 - Создана схема документации (Swagger , Redoc).
 
 
+- Для создания и запуска docker-контейнера выполни команду в терминале в папке проекта:
+
+        docker-compose up -d --build
+
 //source env/bin/activate - активация виртуального окружения
 //pip install -r requirements.txt - установка зависимостей
 //.env - этот файл необходимо создать в корне проекта и заполнить по шаблону .env.example
-//celery -A config worker -l INFO - запуск celery worker
-//celery -A config beat -l info -S django - запуск celery beat
+//celery -A config worker --beat --loglevel=info - запуск celery
 //python manage.py test - запуск тестов 
 //coverage report - отчет по тестам
+
+Технологии в проекте:
+
+- Python, Celery, Redis, Django, DRF, PostgreSQL, JWT, Stripe, Unittest,

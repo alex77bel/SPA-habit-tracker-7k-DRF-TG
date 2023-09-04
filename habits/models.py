@@ -14,10 +14,8 @@ class Habit(models.Model):
                               **NULLABLE)
     place = models.CharField(max_length=150,
                              verbose_name='место выполнения привычки')
-    time = models.TimeField(default=timezone.now().time,
-                            verbose_name='время выполнения привычки')
-    date = models.DateField(default=timezone.now().date,
-                            verbose_name='дата выполнения привычки')
+    time = models.TimeField(verbose_name='время выполнения привычки')
+    date = models.DateField(verbose_name='дата выполнения привычки')
     action = models.CharField(max_length=150,
                               verbose_name='действие привычки')
     is_public = models.BooleanField(default=True,
